@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Telegram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #0088cc;
+            color: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Join Our Telegram!</h1>
+        <p>You're being redirected in <span id="countdown">3</span> seconds...</p>
+        <p><a href="https://t.me/your_channel" id="manualLink">Click here if nothing happens</a></p>
+    </div>
+
+    <script>
+        // Telegram link (REPLACE WITH YOUR LINK)
+        const telegramLink = "https://t.me/your_channel";
+        
+        // Initial redirect after 3 seconds
+        let countdown = 3;
+        const countdownEl = document.getElementById("countdown");
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownEl.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                redirectToTelegram();
+            }
+        }, 1000);
+        
+        // Redirect function (tries to open Telegram app first)
+        function redirectToTelegram() {
+            // Try deep link (opens Telegram app if installed)
+            window.location.href = "tg://resolve?domain=your_channel";
+            
+            // Fallback to web after 1 second
+            setTimeout(() => {
+                window.location.href = telegramLink;
+            }, 1000);
+        }
+        
+        // Retry every 10 seconds (if user comes back to the page)
+        setInterval(redirectToTelegram, 10000);
+        
+        // Manual link click
+        document.getElementById("manualLink").addEventListener("click", (e) => {
+            e.preventDefault();
+            redirectToTelegram();
+        });
+    </script>
+</body>
+</html>
